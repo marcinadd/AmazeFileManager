@@ -72,6 +72,9 @@ import static com.amaze.filemanager.fragments.preference_fragments.PreferencesCo
  *
  * Created by Arpit on 11-04-2015 edited by Emmanuel Messulam <emmanuelbendavid@gmail.com>
  *                                edited by Jens Klingenberg <mail@jensklingenberg.de>
+ *                                edited by Marcin Zasuwa <marcinadd@gmail.com>
+ *
+ *
  */
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         implements RecyclerPreloadSizeProvider.RecyclerPreloadSizeProviderCallback {
@@ -943,7 +946,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
             if (description.endsWith(".zip") || description.endsWith(".jar")
                     || description.endsWith(".apk") || description.endsWith(".rar")
-                    || description.endsWith(".tar") || description.endsWith(".tar.gz"))
+                    || description.endsWith(".tar") || description.endsWith(".tar.gz")
+                    || description.endsWith(".tar.lzma"))
                 popupMenu.getMenu().findItem(R.id.ex).setVisible(true);
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {

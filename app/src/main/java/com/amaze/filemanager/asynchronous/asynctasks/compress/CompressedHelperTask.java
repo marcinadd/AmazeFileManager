@@ -1,8 +1,9 @@
 /*
  * CompressedHelperTask.java
  *
- * Copyright (C) 2017-2018 Emmanuel Messulam<emmanuelbendavid@gmail.com>,
- * Raymond Lai <airwave209gt@gmail.com>.
+ * Copyright (C) 2017-2019 Emmanuel Messulam<emmanuelbendavid@gmail.com>,
+ * Raymond Lai <airwave209gt@gmail.com>,
+ * Marcin Zasuwa <marcinadd@gmai.com>.
  *
  * This file is part of Amaze File Manager.
  *

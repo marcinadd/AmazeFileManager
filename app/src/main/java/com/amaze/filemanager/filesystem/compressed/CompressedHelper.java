@@ -26,7 +26,9 @@ import android.content.Context;
 
 import com.amaze.filemanager.filesystem.compressed.extractcontents.helpers.GzipExtractor;
 import com.amaze.filemanager.filesystem.compressed.extractcontents.helpers.RarExtractor;
+import com.amaze.filemanager.filesystem.compressed.extractcontents.helpers.LZMATarExtractor;
 import com.amaze.filemanager.filesystem.compressed.showcontents.helpers.GzipDecompressor;
+import com.amaze.filemanager.filesystem.compressed.showcontents.helpers.LZMATarDecompressor;
 import com.amaze.filemanager.filesystem.compressed.showcontents.helpers.RarDecompressor;
 import com.amaze.filemanager.filesystem.compressed.showcontents.helpers.ZipDecompressor;
 import com.amaze.filemanager.filesystem.compressed.showcontents.helpers.TarDecompressor;
@@ -56,6 +58,7 @@ public abstract class CompressedHelper {
     public static final String fileExtensionTar = "tar";
     public static final String fileExtensionGzipTar = "tar.gz";
     public static final String fileExtensionRar = "rar";
+    public static final String fileExtensionLZMATar = "tar.lzma";
 
     /**
      * To add compatibility with other compressed file types edit this method
@@ -73,7 +76,9 @@ public abstract class CompressedHelper {
             extractor = new TarExtractor(context, file.getPath(), outputPath, listener);
         } else if(isGzippedTar(type)) {
             extractor = new GzipExtractor(context, file.getPath(), outputPath, listener);
-        } else {
+        } else if (isLZMATar(type))
+            extractor=new LZMATarExtractor(context, file.getPath(), outputPath, listener);
+        else {
             return null;
         }
 
@@ -95,7 +100,9 @@ public abstract class CompressedHelper {
             decompressor = new TarDecompressor(context);
         } else if(isGzippedTar(type)) {
             decompressor = new GzipDecompressor(context);
-        } else {
+        } else if(isLZMATar(type))
+            decompressor= new LZMATarDecompressor(context);
+        else {
             return null;
         }
 
@@ -106,7 +113,7 @@ public abstract class CompressedHelper {
     public static boolean isFileExtractable(String path) {
         String type = getExtension(path);
 
-        return isZip(type) || isTar(type) || isRar(type) || isGzippedTar(type);
+        return isZip(type) || isTar(type) || isRar(type) || isGzippedTar(type) || isLZMATar(type);
     }
 
     /**
@@ -119,7 +126,7 @@ public abstract class CompressedHelper {
         compressedName = compressedName.toLowerCase();
         if(isZip(compressedName) || isTar(compressedName) || isRar(compressedName)) {
             return compressedName.substring(0, compressedName.lastIndexOf("."));
-        } else if (isGzippedTar(compressedName)) {
+        } else if (isGzippedTar(compressedName) || isLZMATar(compressedName)) {
             return compressedName.substring(0,
                     Utils.nthToLastCharIndex(2, compressedName, '.'));
         } else {
@@ -147,6 +154,8 @@ public abstract class CompressedHelper {
     private static boolean isRar(String type) {
         return type.endsWith(fileExtensionRar);
     }
+
+    private static boolean isLZMATar(String type) { return type.endsWith(fileExtensionLZMATar); }
 
     private static String getExtension(String path) {
         return path.substring(path.indexOf('.')+1, path.length()).toLowerCase();
